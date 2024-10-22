@@ -1,0 +1,75 @@
+<body style="background-color: whitesmoke; background-image: url(../../assets/bg7.jpg); background-repeat: no-repeat; background-size: cover; width: 100%;">
+    <br><br>
+
+    <div class="modal-dialog" style="width: 500px;">
+        <div class="modal-content" style="background-color: whitesmoke; background-image: url(../../assets/bg10.webp); background-repeat: no-repeat; background-size: cover;">
+            <div class="modal-header text-center">
+                <h4 class="modal-title" style="font-family: bold; font-size: xx-large; margin-left: 170px;">Portfolio Management</h4>
+            </div>
+            <div *ngIf="success === true; then SUCC else FAIL"></div>
+            <ng-template #SUCC>
+                <b style="color: green; text-align: center; font-size: x-large;">{{ message }}</b>
+            </ng-template>
+            <ng-template #FAIL>
+                <b style="color: red; text-align: center; font-size: x-large;">{{ message }}</b>
+            </ng-template>
+
+            <form>
+                <div class="modal-body" style="padding: 10px;">
+                    <!-- Portfolio Name -->
+                    <div class="form-group row">
+                        <div class="col-lg-1"></div>
+                        <label class="col-lg-3 form-control-label">Portfolio Name <span style="color: red;">*</span></label>
+                        <div class="col-lg-6">
+                            <input [(ngModel)]="form.portfolioName" name="portfolioName" placeholder="Enter portfolio name" class="form-control">
+                            <span style="color: red;">{{ inputError.portfolioName }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Risk Tolerance Level -->
+                    <div class="form-group row">
+                        <div class="col-lg-1"></div>
+                        <label class="col-lg-3 form-control-label">Risk Tolerance Level <span style="color: red;">*</span></label>
+                        <div class="col-lg-6">
+                            <select [(ngModel)]="form.rid" name="rid" style="width: 200px; height: 30px;" class="form-control">
+                                <option *ngFor="let r of preloadData" [value]="r.rid">{{ r.risktoleranceLevel }}</option>
+                            </select>
+                            <span style="color: red;">{{ inputError.rid }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Initial Investment Amount -->
+                    <div class="form-group row">
+                        <div class="col-lg-1"></div>
+                        <label class="col-lg-3 form-control-label">Initial Investment Amount <span style="color: red;">*</span></label>
+                        <div class="col-lg-6">
+                            <input [(ngModel)]="form.initialinvestmentAmount" name="initialinvestmentAmount"  placeholder="Enter Initial Investment number" class="form-control">
+                            <span style="color: red;">{{ inputError.initialinvestmentAmount }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Investment Strategy -->
+                    <div class="form-group row">
+                        <div class="col-lg-1"></div>
+                        <label class="col-lg-3 form-control-label">Investment Strategy <span style="color: red;">*</span></label>
+                        <div class="col-lg-6">
+                            <textarea [(ngModel)]="form.investmentStrategy" name="investmentStrategy" placeholder="Enter your Investment Strategy" class="form-control"></textarea>
+                            <span style="color: red;">{{ inputError.investmentStrategy }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-3">
+                            <button (click)="save()" type="submit" class="btn btn-success form-control">Save</button>
+                        </div>
+                        <div class="col-lg-3">
+                            <button (click)="reset()" type="button" class="btn btn-primary form-control">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>

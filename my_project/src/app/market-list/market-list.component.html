@@ -1,0 +1,108 @@
+<body style="background-color:whitesmoke;background-image: url(../../assets/bg6.jpg); background-repeat: no-repeat;background-size:cover;width:100%">
+    <br>
+    <h1 style="margin-top:-15px;margin-left: 40%;">Market List</h1>
+    <div class="container-fluid">
+        <!-- Search Form -->
+        <div class="row align-items-center mb-3">
+            <!-- Name Input -->
+            <div class="col-lg-2">
+                <label for="nameInput">Quantity:</label>
+                <input id="nameInput" [(ngModel)]="form.quantity" name="quantity" placeholder="Enter quantity" class="form-control">
+                <span style="color:Red">{{ inputError.quantity }}</span>
+            </div>
+
+            <!-- Expertise Select -->
+            <div class="col-lg-2">
+                <label for="expertiseSelect">Order Type:</label>
+                <select id="expertiseSelect" [(ngModel)]="form.oid" name="oid" class="form-control">
+                    <option value="0" >Select orderType</option>
+                    <option *ngFor="let r of preloadData" value="{{ r.oid }}">{{ r.orderType }}</option>
+                </select>
+                <span style="color:Red">{{ inputError.oid }}</span>
+            </div>
+
+            <!-- Date of Birth Input -->
+            <div class="col-lg-2">
+                <label for="dobInput">Purchase Date :</label>
+                <input id="dobInput" [(ngModel)]="form.purchaseDate" type="date" name="purchaseDate" class="form-control">
+                <span style="color:Red">{{ inputError.purchaseDate }}</span>
+            </div>
+
+            <!-- Mobile Input -->
+            <div class="col-lg-2">
+                <label for="mobileInput">Purchase Price:</label>
+                <input id="mobileInput" [(ngModel)]="form.purchasePrice" name="purchasePrice" type="number" step="0.01" placeholder="Enter purchasePrice" class="form-control">
+                <span style="color:Red">{{ inputError.purchasePrice }}</span>
+            </div>
+
+            <!-- Search Button -->
+            <div class="col-lg-2">
+                <label>&nbsp;</label> <!-- Empty label for spacing -->
+                <button (click)="submit()" type="submit" class="btn btn-primary w-100">Search <i class="fa fa-search"></i></button>
+            </div>
+        </div>
+
+        <!-- Success/Failure Message -->
+        <div *ngIf="success == true; then SUCC else FAIL"></div>
+        <ng-template #SUCC>
+            <b style="color:green;margin-left:33%;font-size:x-large;" id="timeout">{{ message }}</b>
+        </ng-template>
+        <ng-template #FAIL>
+            <b style="color:red;margin-left:33%;font-size: x-large;" id="timeout">{{ message }}</b>
+        </ng-template>
+
+        <!-- Doctor List Table -->
+        <table class="table table-bordered border-dark table-sm table-hover table-responsive-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th>S.No.</th>
+                    <th>Quantity</th>
+                    <th>Purchase Price</th>
+                    <th>Purchase Date</th>
+                    <th>Order Type</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let e of list; let i = index;">
+                    <td>{{ form.index + i }}</td>
+                    <td>{{ e.quantity }}</td>
+                    <td>{{ e.purchasePrice }}</td>
+                    <td>{{ e.purchaseDate }}</td>
+                    <td>{{ e.orderType }}</td>
+
+                    <td><button (click)="edit(e.id)" class="btn btn-link text-primary">Edit <i class="fa fa-edit"></i></button></td>
+                    <td><button (click)="delete(e.id)" class="btn btn-link text-danger">Delete <i class="fa fa-trash"></i></button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination Controls -->
+        <div *ngIf="form.mesg == '';then EPAG else DPAG;"></div>
+
+        <ng-template #EPAG>
+            <div class="row">
+                <div class="col-lg-1">
+                    <div *ngIf="form.pageNo == 1; then PD else PE"></div>
+                    <ng-template #PD><button disabled (click)="previous()" class="btn btn-dark">Previous</button></ng-template>
+                    <ng-template #PE><button (click)="previous()" class="btn btn-primary">Previous</button></ng-template>
+                </div>
+                <div class="col-lg-4"></div>
+                <div class="col-lg-1">
+                    <a [routerLink]="['/market']" class="btn btn-primary">Add</a>
+                </div>
+                <div class="col-lg-5"></div>
+                <div class="col-lg-1">
+                    <div *ngIf="list.length < 5 || form.LastId == form.MaxId; then ND else NE"></div>
+                    <ng-template #ND><button disabled (click)="next()" class="btn btn-dark">Next</button></ng-template>
+                    <ng-template #NE><button (click)="next()" class="btn btn-primary">Next</button></ng-template>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #DPAG>
+            <b style="margin-left:40%;font-size: x-large;">{{ form.mesg }}</b><br>
+            <button (click)="reload()" class="btn btn-primary" style="margin-left:45%;">Back</button>
+        </ng-template>
+    </div>
+</body>
